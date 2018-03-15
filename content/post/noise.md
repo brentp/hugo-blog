@@ -7,13 +7,13 @@ tags: ["noise", "python", "variant"]
 categories: ["Genomics"]
 ---
 
-A while ago I had an idea to find variants on the X chromosome that are under
+This afternoon, I did a quick analysis to attempt to find variants on the X chromosome that are under
 recessive constraint--that is that they appear in some non-zero frequency in females but never
 occur in male. That is, without an extra copy, a variant might be embryonic lethal in males, but
-could be seen in females thanks to a backup copy. I though that these might be occurring at a
-relatively high allele frequency (1 in 1000).
+could be seen in females thanks to a backup copy. I thought that these might be occurring at a
+relatively high allele frequency (greater than 0.001). I encountered some surprises.
 
-A reasonable first pass is to check, filter to variants on X that have:
+A reasonable first pass is to filter to variants on X that have:
 
 1. 0 homozygous alternate samples in females (or males)
 2. 0 heterozygous alternate samples in males.
