@@ -1,7 +1,7 @@
 ---
 title: "Nim Hts Example"
 date: 2018-10-01T13:17:00-06:00
-draft: true
+draft: false
 ---
 
 Several folks have recently expressed interest in learning [nim](https://nim-lang.org) which
@@ -67,12 +67,16 @@ proc diff(atbl, btbl: TableRef[string,Record]): seq[Record] =
 # print out the differences. note that UFCS let's us
 # use atable.diff(btable) which is equivalent to btable.diff(atable)
 for aln in atable.diff(btable):
+  echo aln.flag
   # aln.flag is a uint16, but it has a string method defined on it so this
   # will print, e.g.: PAIRED,REVERSE,MREVERSE,READ2,SUPPLEMENTARY
   # indicating which bits are set in the flag
-  echo aln.flag
 
 {{< /highlight >}}
 
 note the `flag` is actually a `uint16` but can still print as an informative string.
 This uses a method on the flag similar to python's `__repr__` or `__str__`.
+
+This gives a starting-point for looking into the problem at hand.
+For more info on using [hts-nim](https://github.com/brentp/hts-nim), have a look at the [docs](https://brentp.github.io/hts-nim/)
+
