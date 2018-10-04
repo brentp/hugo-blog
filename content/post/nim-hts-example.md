@@ -2,6 +2,11 @@
 title: "Nim Hts Example"
 date: 2018-10-01T13:17:00-06:00
 draft: false
+keywords: ["nim"]
+description: ""
+tags: ["nim-mundane"]
+categories: ["nim"]
+author: "Brent"
 ---
 
 Several folks have recently expressed interest in learning [nim](https://nim-lang.org) which
