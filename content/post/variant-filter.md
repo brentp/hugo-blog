@@ -28,7 +28,7 @@ either [recessive](https://medlineplus.gov/ency/article/002052.htm) or
 [de novo (dominant)](https://www.cancer.gov/publications/dictionaries/genetics-dictionary/def/de-novo-mutation)
 could match the inheritance pattern.
 
-We expect between 0 and 2 true **de novo** variants per exome, but given the vagaries of sequencing
+We expect between 0 and 2 true **de novo** variants per exome, but given the vagaries of sequencing,
 we can find many more and it's unclear how many recessive (compound or single-site) variants we should expect
 per exome and what type of filtering is required to get that to a reasonable level. This post is to look at
 various filtering strategies in the context of rare disease trios. I did this to educate myself on what type
@@ -47,9 +47,9 @@ The filters (beyond the genotypes for inheritance pattern) that I'll consider ar
 These filters will be applied singly and then combined so we can evaluate how each reduces the number of putative
 variants to consider. The exact values I have chosen are arbitrary, but defensible and changing them to other sane
 values does not change the conclusions at all (or the actual resulting counts much). And especially when multiple
-criteria are combined as they will in a real analysis, the exact cutoff tends to matter less.
+criteria are combined as they will be in a real analysis, the exact cutoff tends to matter less.
 
-Note that since this is in the context of rare disease, we can require a the variant to be extremely rare in gnomad,
+Note that since this is in the context of rare disease, we can require the variant to be extremely rare in gnomad,
 if, instead, we are just looking for *de novo* variants that may not contribute to disease, the allele frequency filter
 would be less useful.
 
@@ -81,7 +81,7 @@ Then, moving left:
  * green (DN_AB): requires an allele balance in the kid > 0.25 and < 0.75 and 1 or fewer total alternate counts in the parents.
  * purple (DN_depth_GQ): requires all samples to have depth > 7 and genotype quality > 10
  * orange (DN_gnomad): requires the variant to be 'PASS' in gnomad and to have a population max allele frequency < 0.001
- * yellow (DN_AB_depth): combines the `DN_AB` and DN_depth_GQ` filters.
+ * yellow (DN_AB_depth): combines the `DN_AB` and `DN_depth_GQ` filters.
  * brown (denovo): combines the `DN_AB_depth` and `DN_gnomad` and `DN_pass_not_multiallelic` filters
 
 Note that the inset zooms in on the final 2 sets of variants (`DN_AB_depth` and `denovo`). In reality, a researcher is likely to
@@ -92,10 +92,10 @@ those are removed when the additional gnomad filters are applied.
 
 ### combining more lenient filters
 
-That shows how effective combining depth, allele balance, gnomad allele frequency, FILTER, can be. And the blue swarm shows that GATK
+That shows how effective combining depth, allele balance, gnomad allele frequency and FILTER can be. And the blue swarm shows that GATK
 is in fact, a very good caller, yielding very few bad (spurious **de novo**) calls that have a PASS filter.
 
-To demonstrate this combination effect, below, we compare the final `denovo` set of calls from above with a *lenient* set that
+To demonstrate this combination effect further, we compare the final `denovo` set of calls from above with a *lenient* set that
 requires only:
 
  * depth 5 or more (instead of 7)
@@ -116,7 +116,7 @@ even more.
 
 Recall that recessive variants are inherited on different haplotypes, either at a single site or as a compound heterozygote. In order
 to call compound heterozygotes, we must aggregate variants by gene and then phase by inheritance. Given 2 sites in a compound het in a
-trio with unaffected parents and affected kid like:
+trio with unaffected parents and affected kid:
 
 1. kid: 0/1, mom: 0/1, dad: 0/0
 2. kid: 0/1, mom: 0/0, dad: 0/1
@@ -141,16 +141,16 @@ The plot below shows the entirety of the results for the recessive analysis.
 
 ![recessive plot](/img/variant-filter-recessive.png)
 
-In this plot, the left-most, red swarm labelled AR is the meta-set of variants that could possibly be any type of recessive variant. It only requires kid to be heterozygous or homozygous and mom or dad to be heterozygous and neither mom nor dad to be homozygous alternate
+In this plot, the left-most, red swarm, labeled 'AR', is the meta-set of variants that could possibly be any type of recessive variant. It only requires kid to be heterozygous or homozygous and mom or dad to be heterozygous and neither mom nor dad to be homozygous alternate
 
 Then continuing left across the plot:
 
  * blue (AR_pass_not_MA): limits the `AR` variants to PASS and not multi-allelic
  * green (AR_AB): limits the `AR` variants to have AB > 0.25 and AB < 0.75 for sites where the kid is heterozygous (remember this set also incluces variants where the kid is hom-alt)
  * purple (AR_depth): limits AR variants to have depth > 7.
- * orange (AR_AB_depth_GQ): requires variants to pass `AR_AB` and AR_depth` and requires kid, mom, and dad to have GQ > 10
+ * orange (AR_AB_depth_GQ): requires variants to pass `AR_AB` and `AR_depth` and requires kid, mom, and dad to have GQ > 10
  * AR_gnomad (yellow): requires the `AR` variant to have a populatiom max allele frequency < 0.005 in gnomad.
- * AR_filtered (brown): requires `AR_AB_depth`, `AR_pass_not_MA`, and 'AR_gnomad` -- so depth > 7, GQ > 10, PASS and gnomad frequency < 0.005
+ * AR_filtered (brown): requires `AR_AB_depth`, `AR_pass_not_MA`, and `AR_gnomad` -- so depth > 7, GQ > 10, PASS and gnomad frequency < 0.005
  * autorec (pink): this requires `AR_filtered` and mom and dad to be heterozygous and kid homozygous alternate -- so this is a single-site recessive
  * XLR (gray): X-Linked-Recessive. requires the mom to be het, dad hom ref, and kid male and hom-alt, PASS, on the X chromosome, depth > 7, GQ > 10, mom AB > 0.2 and < 0.8.
  * `compound_het`: this takes the `AR_filtered` variants and the `denovo` variants from above and aggregates by gene and phases-by-inheritance.
@@ -170,7 +170,7 @@ performed in rare disease research.
 All of the filtering described above was done with one [slivar](https://github.com/brentp/slivar) command followed by an additional one to call compound heterozygotes.
 `slivar` allows users to write simple (javascript) expressions that get applied to every trio (or sample or user-specified group) inferred from a pedigree file in the VCF. 
 
-Below is an **especially hairy** command because it was evaluating every strategy plotted above. For actual research, only the final, combined commands
+Below is an **especially hairy** command because it applies every filtering strategy plotted above. For actual research, only the final, combined commands
 are needed, so please use the simple commands
 documented [here](https://github.com/brentp/slivar/wiki/rare-disease#full-analysis-for-trios-with-unaffected-parents) that will be effectively identical to this.
 
