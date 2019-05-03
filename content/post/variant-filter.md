@@ -2,7 +2,7 @@
 title: "filtering variants in rare disease trios"
 date: 2019-05-01T12:25:04-06:00
 lastmod: 2019-05-01T12:25:04-06:00
-draft: true
+draft: false
 keywords: []
 description: ""
 tags: []
@@ -22,7 +22,7 @@ mathjax: false
 
 <!--more-->
 
-In rare, mendelian disease research, given a trio of affected kid and healthy mom and healthy dad, we 
+In rare, mendelian disease research, given a trio of an affected kid, healthy mom and healthy dad, we 
 seek genetic variation that can explain the "phenotype" in the kid. In this scenario, 
 either [recessive](https://medlineplus.gov/ency/article/002052.htm) or 
 [de novo (dominant)](https://www.cancer.gov/publications/dictionaries/genetics-dictionary/def/de-novo-mutation)
@@ -41,15 +41,15 @@ The filters (beyond the genotypes for inheritance pattern) that I'll consider ar
  * `GQ`: genotype quality > 10
  * `AB`: allele balance (alt alleles / (ref + alt)) between 0.25 and 0.75
  * `DP`: depth > 7
- * `gnomad_popmax_af`: [gnomad](https://gnomad.broadinstitute.org/) population max allele frequence < 0.001
- * `gnomad_filter`: variant must have a PASS filter in gnomad
+ * `gnomad_popmax_af`: [gnomAD](https://gnomad.broadinstitute.org/) population max allele frequence < 0.001
+ * `gnomad_filter`: variant must have a PASS filter in gnomAD
 
 These filters will be applied singly and then combined so we can evaluate how each reduces the number of putative
 variants to consider. The exact values I have chosen are arbitrary, but defensible and changing them to other sane
 values does not change the conclusions at all (or the actual resulting counts much). And especially when multiple
 criteria are combined as they will be in a real analysis, the exact cutoff tends to matter less.
 
-Note that since this is in the context of rare disease, we can require the variant to be extremely rare in gnomad,
+Note that since this is in the context of rare disease, we can require the variant to be extremely rare in gnomAD,
 if, instead, we are just looking for *de novo* variants that may not contribute to disease, the allele frequency filter
 would be less useful.
 
@@ -75,12 +75,12 @@ The plot below shows the entirety of the results for the *de novo* analysis.
 The left-most, red cluster labelled **DN** is the number of variants that are found using only the genotypes--the kid must be heterozygous and
 the parents homozgyous reference.
 
-Then, moving left:
+Then, moving right:
 
  * blue (DN_pass_not_multiallelic): if we require variants to have a PASS FILTER, we can already dramatically reduce the number of variants.
  * green (DN_AB): requires an allele balance in the kid > 0.25 and < 0.75 and 1 or fewer total alternate counts in the parents.
  * purple (DN_depth_GQ): requires all samples to have depth > 7 and genotype quality > 10
- * orange (DN_gnomad): requires the variant to be 'PASS' in gnomad and to have a population max allele frequency < 0.001
+ * orange (DN_gnomad): requires the variant to be 'PASS' in gnomAD and to have a population max allele frequency < 0.001
  * yellow (DN_AB_depth): combines the `DN_AB` and `DN_depth_GQ` filters.
  * brown (denovo): combines the `DN_AB_depth` and `DN_gnomad` and `DN_pass_not_multiallelic` filters
 
@@ -88,11 +88,11 @@ Note that the inset zooms in on the final 2 sets of variants (`DN_AB_depth` and 
 examine only variants in the `denovo` group, meaning that she can examine between 0 and 4 variants per sample.
 
 Also note that although the depth and allele balance filters (in yellow) still leave a couple of samples with > 100 candidate variants
-those are removed when the additional gnomad filters are applied.
+those are removed when the additional gnomAD filters are applied.
 
-### combining more lenient filters
+### Combining more lenient filters
 
-That shows how effective combining depth, allele balance, gnomad allele frequency and FILTER can be. And the blue swarm shows that GATK
+That shows how effective combining depth, allele balance, gnomAD allele frequency and FILTER can be. And the blue swarm shows that GATK
 is in fact, a very good caller, yielding very few bad (spurious **de novo**) calls that have a PASS filter.
 
 To demonstrate this combination effect further, we compare the final `denovo` set of calls from above with a *lenient* set that
@@ -101,7 +101,7 @@ requires only:
  * depth 5 or more (instead of 7)
  * genotype quality of 5 or more (instead of 10)
  * allele balance between 0.2 and 0.8 (instead of 0.25 and 0.75)
- * gnomad allele frequency < 0.01 (instead of 0.001)
+ * gnomAD allele frequency < 0.01 (instead of 0.001)
 
 These are set low enough to make an analyst squirm, but not so low as to be unreasonable.
 
@@ -143,7 +143,7 @@ The plot below shows the entirety of the results for the recessive analysis.
 
 In this plot, the left-most, red swarm, labeled 'AR', is the meta-set of variants that could possibly be any type of recessive variant. It only requires kid to be heterozygous or homozygous and mom or dad to be heterozygous and neither mom nor dad to be homozygous alternate
 
-Then continuing left across the plot:
+Then continuing right across the plot:
 
  * blue (AR_pass_not_MA): limits the `AR` variants to PASS and not multi-allelic
  * green (AR_AB): limits the `AR` variants to have AB > 0.25 and AB < 0.75 for sites where the kid is heterozygous (remember this set also incluces variants where the kid is hom-alt)
