@@ -58,12 +58,13 @@ I have placed `denovo` and `compound-het` on the top row because these are the 2
 
 ## Additional Filtering for solo *de novo* and *compound-het*
 
-200 variants, as in the case of solo *de novo* in the plot above seems too many to reasonably evaluate, we can reduce this number:
-+ limiting to functional variants
-+ lowering the gnomAD allele-frequency thresholds
-+ raising depth and genotype-quality thresholds
-+ filtering on TOPmed allele-frequency
-+ limiting to genes of interest
+200 variants, as in the case of solo *de novo* in the plot above seems too many to reasonably evaluate, we can reduce this number by:
+
+ + limiting to functional variants
+ + lowering the gnomAD allele-frequency thresholds
+ + raising depth and genotype-quality thresholds
+ + filtering on TOPmed allele-frequency
+ + limiting to genes of interest
 
 of those, the last is the most difficult as it requires either knowledge of the phenotype in each of the 149 probands or trust in a gene-wide score such as pLI or gene-damage-index. We can, however, limit to a set of genes previously associated with (any) disease using [this file](http://compbio.charite.de/jenkins/job/hpo.annotations.monthly/lastSuccessfulBuild/artifact/annotation/genes_to_diseases.txt) which uses OMIM disease annotations.
 
