@@ -22,6 +22,8 @@ mathjax: false
 
 <!--more-->
 
+This is a continuation of my [previous post](https://brentp.github.io/post/variant-filter/) where I looked at filtering variants in rare disease trios.
+
 In building out [slivar](https://github.com/brentp/slivar), I have largely focused on trios--where mom, dad, and affected kid are present. I assumed that with only a single affected sample, it would substantially reduce the *solve-rate* and increase the false-positive rate, in which a ostensibly *causal variant* was mis-categorized or leave so many candidate variants that the solve-rate would be lowered.
 
 A recent *Cell* paper [looked at > 2200 Saudi families where a proband had rare disease](https://www.ncbi.nlm.nih.gov/pubmed/31130284). The apparent solve-rate was no different for singleton samples than for trios; this could be due to the choice of when trio-sequencing was needed, but, still, interesting. Also, [Harriet](https://twitter.com/hdashnow), who has just joined the Quinlan lab, is co-author on [a paper](https://www.nature.com/articles/ejhg2017123) that, evaluates singleton exomes and finds that gene-lists created by clinicians facilitate variant prioritization.
