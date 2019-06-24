@@ -26,7 +26,7 @@ In building out [slivar](https://github.com/brentp/slivar), I have largely focus
 
 A recent *Cell* paper [looked at > 2200 Saudi families where a proband had rare disease](https://www.ncbi.nlm.nih.gov/pubmed/31130284). The apparent solve-rate was no different for singleton samples than for trios; this could be due to the choice of when trio-sequencing was needed, but, still, interesting. Also, [Harriet](https://twitter.com/hdashnow), who has just joined the Quinlan lab, is co-author on [a paper](https://www.nature.com/articles/ejhg2017123) that, evaluates singleton exomes and finds that gene-lists created by clinicians facilitate variant prioritization.
 
-I ran an *in silico* experiement where a set of high-quality candidate variants is found with each of 149 trios with exome sequencing. Then each family is computationally reduced to a *duo*--with only 1 parent, and then a *solo*, with just the proband.
+I ran an *in silico* experiment where a set of high-quality candidate variants is found with each of 149 trios with exome sequencing. Then each family is computationally reduced to a *duo*--with only 1 parent, and then a *solo*, with just the proband.
 
 Without a team of clinicians, one can't know the true causal variants, even with trios, but the *solo* analysis should be able to recover a superset of the variants from the *trio* analysis. As that superset becomes too large, it becomes less plausible that *solo* sequencing is a viable analysis strategy. This is imperfect, but can give a general idea of the task.
 
