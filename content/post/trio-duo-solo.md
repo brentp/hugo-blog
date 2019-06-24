@@ -107,4 +107,4 @@ Note that the drop from pink to gray indicates the effect of using TOPmed annota
 1. Due to [dark regions](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1707-2), variants that are common in hg38 are completely absent in GRCh37 so lifted gnomAD annotations will not filter some common variants. The shift from pink to gray in the 2nd figure shows this; the reduction (after previous filtering) is ~10-15%.
 
 
-Thanks to [Harriet](https://twitter.com/hdashnow), [Aaron](https://twitter.com/aaronquinlan), Amelia, and [Jessica](https://twitter.com/jxchong) for feedback on these analyses.
+Thanks to [Harriet](https://twitter.com/hdashnow), [Aaron](https://twitter.com/aaronquinlan), Amelia, [Matt](https://twitter.com/PubSnips) and [Jessica](https://twitter.com/jxchong) for feedback on these analyses.
